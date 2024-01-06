@@ -48,9 +48,9 @@ int main() {
     int result = check_move(chess, i, j, dx, dy, color);
 
     if (result == 0) {
-        printf("(%d,%d) 沒有可下的位置\n", i, j);
+        printf("%d %d\n", i, j);
     } else {
-        printf("(%d,%d) 有可下的位置，距離為 %d 步\n", i, j, result);
+        printf("(%d %d %d\n", i, j, result);
     }
 
     return 0;
