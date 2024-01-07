@@ -90,6 +90,21 @@ void make_move(int x, int y, int color) {
     }
 }
 
+// 計算棋盤上黑白子的數量
+void count_stones(int *black, int *white) {
+    *black = 0;
+    *white = 0;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (board[i][j] == 1) {
+                (*black)++;
+            } else if (board[i][j] == 2) {
+                (*white)++;
+            }
+        }
+    }
+}
+
 // 主遊戲循環
 int main() {
     int current_player = 1;
@@ -107,8 +122,31 @@ int main() {
         }
 
         if (valid_moves == 0) {
-            printf("遊戲結束！\n");
-            break;
+            printf("無處可下，輪到另一方\n");
+            current_player = (current_player == 1) ? 2 : 1;
+
+            int another_valid_moves = 0;
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    if (is_valid_move(i, j, current_player)) {
+                        another_valid_moves++;
+                    }
+                }
+            }
+
+            if (another_valid_moves == 0) {
+                printf("雙方皆無處可下，遊戲結束\n");
+                int black_count, white_count;
+                count_stones(&black_count, &white_count);
+                if (black_count > white_count) {
+                    printf("黑子勝利！\n");
+                } else if (white_count > black_count) {
+                    printf("白子勝利！\n");
+                } else {
+                    printf("平局！\n");
+                }
+                break;
+            }
         }
 
         int x, y;
